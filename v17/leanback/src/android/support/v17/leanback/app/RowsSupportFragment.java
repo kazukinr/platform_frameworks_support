@@ -366,7 +366,6 @@ public class RowsSupportFragment extends BaseRowSupportFragment implements
             RowPresenter rowPresenter = (RowPresenter) vh.getPresenter();
             RowPresenter.ViewHolder rowVh = rowPresenter.getRowViewHolder(vh.getViewHolder());
             rowVh.setOnItemViewSelectedListener(mOnItemViewSelectedListener);
-            rowVh.setOnItemViewClickedListener(mOnItemViewClickedListener);
             rowPresenter.setEntranceTransitionState(rowVh, mAfterEntranceTransition);
             if (mExternalAdapterListener != null) {
                 mExternalAdapterListener.onAttachedToWindow(vh);
@@ -389,6 +388,11 @@ public class RowsSupportFragment extends BaseRowSupportFragment implements
             if (mExternalAdapterListener != null) {
                 mExternalAdapterListener.onBind(vh);
             }
+
+            // rowVh.setOnItemViewClickedListener must be called before ListRowPresenter$ListRowPresenterItemBridgeAdapter#onBind is called.
+            RowPresenter rowPresenter = (RowPresenter) vh.getPresenter();
+            RowPresenter.ViewHolder rowVh = rowPresenter.getRowViewHolder(vh.getViewHolder());
+            rowVh.setOnItemViewClickedListener(mOnItemViewClickedListener);
         }
 
         @Override
